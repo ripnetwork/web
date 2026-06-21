@@ -41,7 +41,7 @@ export default function Downloads() {
               <ul className="space-y-2 text-gray-300">
                 <li className="flex items-start">
                   <CheckCircle className="w-5 h-5 mr-2 mt-1 flex-shrink-0" />
-                  <span>Linux & macOS.</span>
+                  <span>Linux or macOS.</span>
                 </li>
                 <li className="flex items-start">
                   <CheckCircle className="w-5 h-5 mr-2 mt-1 flex-shrink-0" />

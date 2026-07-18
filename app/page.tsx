@@ -1,114 +1,151 @@
-import Navigation from '@/components/Navigation'
-import Footer from '@/components/Footer'
-import { Terminal, Box, Zap, Search, Shield, Cpu, ArrowRight, Github } from 'lucide-react'
+import Link from 'next/link';
+import { ArrowRight, Box, Cpu, Github, Search, Shield, Terminal, Zap } from 'lucide-react';
+
+const features = [
+  {
+    icon: Terminal,
+    title: 'Interface Statistics',
+    description: 'List interfaces, packet counts, byte totals, and error rates in a single view.',
+  },
+  {
+    icon: Box,
+    title: 'Packet Capture',
+    description: 'Capture traffic with BPF filters, promiscuous mode, and protocol-aware parsing.',
+  },
+  {
+    icon: Zap,
+    title: 'Stress Testing',
+    description: 'Run TCP and HTTP load tests with configurable concurrency, duration, and rate limits.',
+  },
+  {
+    icon: Search,
+    title: 'Port Scanning',
+    description: 'Scan ranges and identify services with timeout-aware probing.',
+  },
+  {
+    icon: Shield,
+    title: 'Vulnerability Detection',
+    description: 'Surface basic security issues before they become larger problems.',
+  },
+  {
+    icon: Cpu,
+    title: 'Process Monitoring',
+    description: 'Find processes that are actively using the network from your host.',
+  },
+];
 
 export default function Home() {
-  const features = [
-    {
-      icon: Terminal,
-      title: 'Interface Statistics',
-      description: 'List network interfaces and view detailed statistics including packet counts, byte counts, and error rates.'
-    },
-    {
-      icon: Box,
-      title: 'Packet Capture',
-      description: 'Capture packets with BPF filters, promiscuous mode support, and real-time protocol analysis.'
-    },
-    {
-      icon: Zap,
-      title: 'Stress Testing',
-      description: 'TCP and HTTP load testing with configurable concurrency, duration, rate limits, and detailed metrics.'
-    },
-    {
-      icon: Search,
-      title: 'Port Scanning',
-      description: 'Scan port ranges with timeout control and identify open services on target hosts.'
-    },
-    {
-      icon: Shield,
-      title: 'Vulnerability Detection',
-      description: 'Basic vulnerability scanning to identify potential security issues on target systems.'
-    },
-    {
-      icon: Cpu,
-      title: 'Process Monitoring',
-      description: 'Scan and identify processes using network connections on your system.'
-    }
-  ]
-
   return (
-    <div className="min-h-screen bg-retro-black">
-      <Navigation />
-      
-      <main className="container mx-auto px-4 py-12">
-        <section className="text-center py-16 border-b-2 border-white mb-12">
-          <h1 className="text-5xl md:text-6xl font-bold mb-6 tracking-widest">
-            RIPNET
-          </h1>
-          <p className="text-xl md:text-2xl text-gray-400 mb-8 max-w-3xl mx-auto">
-            Network diagnostics, packet analysis, observability, and authorized load-testing toolkit
+    <div className="docs-page">
+      <header className="page-header hero-header">
+        <div>
+          <p className="eyebrow">ripnetwork project</p>
+          <h1>ripnet</h1>
+          <p>
+            A compact toolkit for network diagnostics, observability, authorization-aware testing, and fast investigations.
           </p>
-          <p className="text-lg text-gray-500 mb-12">
-            A comprehensive C-based CLI tool for network professionals
-          </p>
-          <div className="flex flex-wrap gap-4 justify-center">
-            <a
-              href="/downloads"
-              className="retro-btn flex items-center space-x-2"
-            >
-              <span>Download Now</span>
-              <ArrowRight className="w-4 h-4" />
-            </a>
-            <a
-              href="/documentation"
-              className="retro-btn"
-            >
-              Get Started
-            </a>
-            <a
-              href="https://github.com/ripnetwork/ripnet"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="retro-btn flex items-center space-x-2"
-            >
-              <Github className="w-4 h-4" />
-              <span>GitHub</span>
-            </a>
+        </div>
+        <div className="stat-stack" aria-label="Project highlights">
+          <div>
+            <strong>6</strong>
+            <span>capabilities</span>
           </div>
-        </section>
+          <div>
+            <strong>CLI</strong>
+            <span>focused</span>
+          </div>
+        </div>
+      </header>
 
-        <section className="mb-16">
-          <h2 className="text-3xl font-bold mb-8 text-center tracking-widest">
-            [ FEATURES ]
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {features.map((feature, index) => {
-              const Icon = feature.icon
+      <section className="overview-strip" aria-label="Quick navigation">
+        <div>
+          <span>Download</span>
+          <code>make install</code>
+        </div>
+        <div>
+          <span>Docs</span>
+          <code>docs.ripnet.cc</code>
+        </div>
+        <div>
+          <span>Source</span>
+          <code>github.com/ripnetwork</code>
+        </div>
+      </section>
+
+      <section className="group-board" aria-label="Website sections">
+        <div className="group-block">
+          <h2>Capabilities</h2>
+          <div className="group-links">
+            {features.map((feature) => {
+              const Icon = feature.icon;
               return (
-                <div key={index} className="retro-card">
-                  <Icon className="w-12 h-12 mb-4" />
-                  <h3 className="text-xl font-bold mb-3">{feature.title}</h3>
-                  <p className="text-gray-400">{feature.description}</p>
+                <div key={feature.title}>
+                  <span>
+                    <strong>{feature.title}</strong>
+                    <small>{feature.description}</small>
+                  </span>
+                  <Icon aria-hidden="true" size={15} />
                 </div>
-              )
+              );
             })}
           </div>
-        </section>
+        </div>
 
-        <section className="retro-card mb-16">
-          <h2 className="text-3xl font-bold mb-6 tracking-widest">
-            [ ABOUT RIPNET ]
-          </h2>
-          <p className="text-gray-300 mb-4 leading-relaxed">
-            ripnet is a powerful network diagnostics and testing toolkit written in C17. It combines the functionality of multiple network tools into a single, efficient CLI application. Whether you're a network administrator, security researcher, or developer, ripnet provides the tools you need to analyze, test, and secure your network infrastructure.
-          </p>
-          <p className="text-gray-300 leading-relaxed">
-            Built with performance and portability in mind, ripnet runs on Linux & macOS, with minimal dependencies (libpcap and pthread).
-          </p>
-        </section>
-      </main>
+        <div className="group-block">
+          <h2>Quick links</h2>
+          <div className="group-links">
+            <Link href="/downloads">
+              <span>
+                <strong>Downloads</strong>
+                <small>Build and install locally</small>
+              </span>
+              <ArrowRight aria-hidden="true" size={15} />
+            </Link>
+            <a href="https://docs.ripnet.cc" rel="noreferrer" target="_blank">
+              <span>
+                <strong>Documentation</strong>
+                <small>Command reference and usage notes</small>
+              </span>
+              <ArrowRight aria-hidden="true" size={15} />
+            </a>
+            <a href="https://github.com/ripnetwork/ripnet" rel="noreferrer" target="_blank">
+              <span>
+                <strong>GitHub</strong>
+                <small>Open source repository</small>
+              </span>
+              <Github aria-hidden="true" size={15} />
+            </a>
+          </div>
+        </div>
+      </section>
 
-      <Footer />
+      <section className="reference-panel" aria-label="Project overview">
+        <div className="reference-heading">
+          <h2>About ripnet</h2>
+          <p>Built for operators, researchers, and developers.</p>
+        </div>
+        <div className="option-table">
+          <div>
+            <code>Language</code>
+            <span>C17 with portability in mind.</span>
+          </div>
+          <div>
+            <code>Platforms</code>
+            <span>Linux and macOS with minimal dependencies.</span>
+          </div>
+          <div>
+            <code>Use cases</code>
+            <span>Inspection, analysis, security testing, and performance checks.</span>
+          </div>
+        </div>
+      </section>
+
+      <section className="notice-panel" aria-label="Authorization notice">
+        <Shield aria-hidden="true" size={18} />
+        <p>
+          Use these network tools only on systems and networks you own or have explicit authorization to test.
+        </p>
+      </section>
     </div>
-  )
+  );
 }

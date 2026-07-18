@@ -1,83 +1,82 @@
-'use client'
+'use client';
 
-import { useState } from 'react'
-import Link from 'next/link'
-import { usePathname } from 'next/navigation'
-import { Terminal, Network, Download, FileText, Folder, Menu, X } from 'lucide-react'
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import { useState } from 'react';
+import { Download, Menu, Terminal, X } from 'lucide-react';
 
-export default function Navigation() {
-  const pathname = usePathname()
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+const navItems = [
+  { name: 'Home', href: '/', icon: Terminal },
+  { name: 'Downloads', href: '/downloads', icon: Download },
+];
 
-  const navItems = [
-    { name: 'Home', href: '/', icon: Terminal },
-    { name: 'Downloads', href: '/downloads', icon: Download },
-    { name: 'Documentation', href: '/documentation', icon: FileText },
-    { name: 'Projects', href: '/projects', icon: Folder },
-  ]
+function NavLinks({ onNavigate }: { onNavigate?: () => void }) {
+  const pathname = usePathname();
 
   return (
-    <header className="border-b-2 border-white bg-retro-black">
-      <div className="container mx-auto px-4 py-4">
-        <div className="flex items-center justify-between">
-          <Link href="/" className="flex items-center space-x-2 group">
-            <Network className="w-8 h-8 group-hover:animate-pulse" />
-            <div>
-              <h1 className="text-2xl font-bold tracking-widest">ripnet</h1>
-              <p className="text-xs text-gray-400 tracking-wider">NETWORK DIAGNOSTICS TOOLKIT</p>
-            </div>
-          </Link>
+    <div className="nav-sections">
+      <div className="nav-group">
+        {navItems.map((item) => {
+          const Icon = item.icon;
+          const isActive = pathname === item.href;
 
-          <nav className="hidden md:flex space-x-1">
-            {navItems.map((item) => {
-              const Icon = item.icon
-              const isActive = pathname === item.href
-              return (
-                <Link
-                  key={item.name}
-                  href={item.href}
-                  className={`retro-btn flex items-center space-x-2 ${
-                    isActive ? 'active' : ''
-                  }`}
-                >
-                  <Icon className="w-4 h-4" />
-                  <span>{item.name}</span>
-                </Link>
-              )
-            })}
-          </nav>
-
-          <button
-            className="md:hidden retro-btn p-2"
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            aria-label="Toggle menu"
-          >
-            {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-          </button>
-        </div>
-
-        {isMobileMenuOpen && (
-          <nav className="md:hidden mt-4 space-y-2">
-            {navItems.map((item) => {
-              const Icon = item.icon
-              const isActive = pathname === item.href
-              return (
-                <Link
-                  key={item.name}
-                  href={item.href}
-                  className={`retro-btn flex items-center space-x-2 w-full ${
-                    isActive ? 'active' : ''
-                  }`}
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  <Icon className="w-4 h-4" />
-                  <span>{item.name}</span>
-                </Link>
-              )
-            })}
-          </nav>
-        )}
+          return (
+            <Link
+              aria-current={isActive ? 'page' : undefined}
+              className={isActive ? 'active' : ''}
+              href={item.href}
+              key={item.name}
+              onClick={onNavigate}
+            >
+              <Icon aria-hidden="true" size={16} />
+              <span>{item.name}</span>
+              <small>{item.name === 'Home' ? 'start' : item.name.charAt(0)}</small>
+            </Link>
+          );
+        })}
       </div>
-    </header>
-  )
+    </div>
+  );
+}
+
+export default function Navigation() {
+  const [isOpen, setIsOpen] = useState(false);
+  const pathname = usePathname();
+
+  return (
+    <>
+      <aside className="sidebar">
+        <Link className="brand" href="/">
+          <img
+            alt="ripnet"
+            className="brand-mark"
+            src="/assets/icon/ripnet-banner-(500x100).png"
+          />
+          <small>network diagnostics toolkit</small>
+        </Link>
+        <NavLinks />
+      </aside>
+
+      <header className="mobile-bar">
+        <Link className="brand compact" href="/">
+          <img
+            alt="ripnet"
+            className="brand-mark compact"
+            src="/assets/icon/ripnet-(512x512).png"
+          />
+          <small>{pathname === '/' ? 'home' : pathname.replace('/', '')}</small>
+        </Link>
+        <button
+          aria-label={isOpen ? 'Close navigation' : 'Open navigation'}
+          className="icon-button"
+          onClick={() => setIsOpen((value) => !value)}
+          type="button"
+        >
+          {isOpen ? <X aria-hidden="true" size={20} /> : <Menu aria-hidden="true" size={20} />}
+        </button>
+      </header>
+
+      {isOpen ? <div className="mobile-drawer"><NavLinks onNavigate={() => setIsOpen(false)} /></div> : null}
+    </>
+  );
 }
